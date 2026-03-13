@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2024国际门萨高阶智商测试</title>
+    <style>
+        :root {
+            --primary-color: #007AFF;
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --danger-color: #ff3b30;
+            --terminal-bg: #000000;
+            --terminal-text: #00ff00;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none; /* 防止复制文本 */
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 通用容器 */
+        .container {
+            width: 100%;
+            max-width: 450px;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 1. 欢迎页 */
+        #welcome-screen {
+            background: linear-gradient(135deg, #007AFF 0%, #00c6ff 100%);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .logo-area {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .btn {
+            background: white;
+            color: var(--primary-color);
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* 2. 答题页 */
+        #quiz-screen {
+            display: none;
+            padding: 20px;
+            height: 100%;
+            background: var(--bg-color);
+            flex-direction: column;
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 3px;
+            margin-bottom: 30px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .q-tag {
+            color: var(--primary-color);
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .q-text {
+            font-size: 20px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-color);
+            margin-bottom: 30px;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option-btn {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 16px;
+            color: #495057;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-btn:active {
+            background: #e7f5ff;
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        /* 3. 分析页（假装加载） */
+        #loading-screen {
+            display: none;
+            height: 100%;
+            background: white;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: #666;
+        }
+
+        /* 4. 整蛊页（病毒特效） */
+        #prank-screen {
+            display: none;
+            height: 100%;
+            background: black;
+            color: red;
+            font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
+            z-index: 999;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .alert-box {
+            border: 2px solid red;
+            background: rgba(255, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: blink 0.5s infinite;
+        }
+
+        .virus-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: shake 0.5s infinite;
+        }
+
+        .warning-text {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .detail-text {
+            font-size: 14px;
+            color: white;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .progress-fake-container {
+            width: 100%;
+            background: #333;
+            height: 20px;
+            border: 1px solid red;
+            margin-top: 20px;
+        }
+        
+        .progress-fake-bar {
+            width: 0%;
+            height: 100%;
+            background: red;
+            transition: width 5s linear;
+        }
+
+        /* 5. 揭晓页 */
+        #reveal-screen {
+            display: none;
+            height: 100%;
+            background: #fff;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 30px;
+            z-index: 1000;
+        }
+
+        .reveal-emoji {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .reveal-title {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .reveal-msg {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .share-btn {
+            background: #25D366; /* WhatsApp/WeChat Green-ish */
+            color: white;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 动画关键帧 */
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes shake { 0% { transform: translate(1px, 1px) rotate(0deg); } 10% { transform: translate(-1px, -2px) rotate(-1deg); } 20% { transform: translate(-3px, 0px) rotate(1deg); } 30% { transform: translate(3px, 2px) rotate(0deg); } 40% { transform: translate(1px, -1px) rotate(1deg); } 50% { transform: translate(-1px, 2px) rotate(-1deg); } 60% { transform: translate(-3px, 1px) rotate(0deg); } 70% { transform: translate(3px, 1px) rotate(-1deg); } 80% { transform: translate(-1px, -1px) rotate(1deg); } 90% { transform: translate(1px, 2px) rotate(0deg); } 100% { transform: translate(1px, -2px) rotate(-1deg); } }
+        
+        .shake-screen {
+            animation: shake 0.5s; 
+            animation-iteration-count: infinite; 
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container" id="main-container">
+        <!-- 1. 欢迎页 -->
+        <div id="welcome-screen">
+            <div class="logo-area">🧠</div>
+            <h1 class="title">2024 高阶智商测试</h1>
+            <p class="subtitle">国际门萨俱乐部(MENSA)亚洲区<br>非官方授权逻辑思维评估</p>
+            <p style="font-size: 12px; margin-bottom: 20px; opacity: 0.7;">预计用时：2分钟 | 题目数：4</p>
+            <button class="btn" onclick="startQuiz()">开始评估</button>
+        </div>
+
+        <!-- 2. 答题页 -->
+        <div id="quiz-screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            
+            <div class="question-card">
+                <span class="q-tag" id="q-number">Question 1/4</span>
+                <p class="q-text" id="q-text">题目加载中...</p>
+                <div class="options-grid" id="options-area">
+                    <!-- 选项由JS生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 加载页 -->
+        <div id="loading-screen">
+            <div class="spinner"></div>
+            <p class="loading-text" id="loading-msg">正在上传答题数据...</p>
+        </div>
+
+        <!-- 4. 整蛊页 -->
+        <div id="prank-screen">
+            <div class="virus-icon">⚠️</div>
+            <div class="alert-box">
+                <div class="warning-text">系统警告！</div>
+                <div>System_Kernel_Panic_Error</div>
+            </div>
+            <div class="detail-text">
+                检测到用户智商过低，无法支持操作系统运行。<br><br>
+                CPU 正在过热...<br>
+                内存正在溢出...<br>
+                正在尝试格式化大脑分区...
+            </div>
+            <div style="font-size: 12px; color: #ff0000;">格式化进度:</div>
+            <div class="progress-fake-container">
+                <div class="progress-fake-bar" id="virus-bar"></div>
+            </div>
+        </div>
+
+        <!-- 5. 揭晓页 -->
+        <div id="reveal-screen">
+            <div class="reveal-emoji">🤣</div>
+            <h2 class="reveal-title">哈哈，好大儿吓到了没？</h2>
+            <p class="reveal-msg">
+                经鉴定，你的智商...<br>
+                当然是没问题啦！<br>
+                （就是容易相信别人）
+            </p>
+            <button class="share-btn" onclick="copyAndShare()">📋 复制链接去坑别人</button>
+            <p style="margin-top: 20px; font-size: 12px; color: #999;">纯属娱乐，请勿当真 ❤️</p>
+        </div>
+    </div>
+
+    <script>
+        // 题目配置
+        const questions = [
+            {
+                text: "如果 1=5, 2=25, 3=125, 4=625, 那么 5=?",
+                options: ["3125", "1", "25", "5"] // 陷阱题，如果1=5，那5=1
+            },
+            {
+                text: "下列图形中，哪一个与其他三个格格不入？",
+                options: ["圆形", "正方形", "三角形", "平行四边形"] // 心理测试常见无解题
+            },
+            {
+                text: "一个水池有进水管和出水管...算了，你觉得你自己聪明吗？",
+                options: ["非常聪明", "一般聪明", "大智若愚", "我是天才"]
+            },
+            {
+                text: "为了保证测试准确性，请点击下方的'确认'按钮，并保持手机平稳。",
+                options: ["确认", "好的", "没问题", "Go"]
+            }
+        ];
+
+        let currentQ = 0;
+
+        // 状态切换函数
+        function startQuiz() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('quiz-screen').style.display = 'flex';
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQ];
+            document.getElementById('q-number').innerText = `Question ${currentQ + 1}/${questions.length}`;
+            document.getElementById('q-text').innerText = q.text;
+            
+            // 更新进度条
+            const progress = ((currentQ) / questions.length) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+
+            const optArea = document.getElementById('options-area');
+            optArea.innerHTML = '';
+            
+            q.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerText = opt;
+                btn.onclick = () => nextQuestion();
+                optArea.appendChild(btn);
+            });
+        }
+
+        function nextQuestion() {
+            currentQ++;
+            if (currentQ < questions.length) {
+                renderQuestion();
+            } else {
+                // 答题结束，显示进度条满
+                document.getElementById('progress-fill').style.width = '100%';
+                setTimeout(showLoading, 300);
+            }
+        }
+
+        function showLoading() {
+            document.getElementById('quiz-screen').style.display = 'none';
+            document.getElementById('loading-screen').style.display = 'flex';
+
+            const msgs = [
+                "正在分析逻辑回路...",
+                "正在对比全球数据库...",
+                "正在计算神经突触反应...",
+                "检测到异常数据..."
+            ];
+
+            let i = 0;
+            const interval = setInterval(() => {
+                if (i < msgs.length) {
+                    document.getElementById('loading-msg').innerText = msgs[i];
+                    i++;
+                } else {
+                    clearInterval(interval);
+                    triggerPrank();
+                }
+            }, 800);
+        }
+
+        function triggerPrank() {
+            document.getElementById('loading-screen').style.display = 'none';
+            const prankScreen = document.getElementById('prank-screen');
+            prankScreen.style.display = 'flex';
+            
+            // 尝试震动 (仅安卓有效)
+            if (navigator.vibrate) {
+                navigator.vibrate([200, 100, 200, 100, 200, 100, 500]);
+            }
+
+            // 屏幕抖动特效
+            document.body.classList.add('shake-screen');
+
+            // 病毒进度条动画
+            setTimeout(() => {
+                document.getElementById('virus-bar').style.width = '100%';
+            }, 100);
+
+            // 5秒后揭晓
+            setTimeout(() => {
+                document.body.classList.remove('shake-screen');
+                prankScreen.style.display = 'none';
+                document.getElementById('reveal-screen').style.display = 'flex';
+                document.getElementById('main-container').style.backgroundColor = '#ffffff';
+            }, 5500);
+        }
+
+        function copyAndShare() {
+            // 复制当前页面URL（实际部署时有效）
+            const text = "居然有人发了这个智商测试给我，测完我沉默了... 👇\n" + window.location.href;
+            
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            try {
+                document.execCommand('copy');
+                alert("链接已复制！快发给你的'好大儿'吧！");
+            } catch (err) {
+                alert("复制失败，请手动复制浏览器地址栏。");
+            }
+            document.body.removeChild(textArea);
+        }
+    </script>
+</body>
+</html>
